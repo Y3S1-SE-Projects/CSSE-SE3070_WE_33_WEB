@@ -3,7 +3,7 @@
 ![Screenshot](/frontend/public/Screenshot.png)
 
 Table of Contents:
-- [Procument Construction Purchasing App](#bulkart---bulk-purchasing-app)
+- [Procument Construction Purchasing App](#Procument Construction Purchasing App)
   - [Usage](#usage)
     - [ES Modules in Node](#es-modules-in-node)
     - [Env Variables](#env-variables)
