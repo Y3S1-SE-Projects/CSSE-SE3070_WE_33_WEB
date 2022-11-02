@@ -1,49 +1,49 @@
-import React, { useEffect } from 'react'
-import { LinkContainer } from 'react-router-bootstrap'
-import { Table, Button, Row, Col } from 'react-bootstrap'
-import { useDispatch, useSelector } from 'react-redux'
-import Message from '../components/Message'
-import Loader from '../components/Loader'
+import React, { useEffect } from "react";
+import { LinkContainer } from "react-router-bootstrap";
+import { Table, Button, Row, Col } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import Message from "../components/Message";
+import Loader from "../components/Loader";
 import {
   deleteProduct,
   createProduct,
   listWaitlistProducts,
-} from '../actions/productActions'
-import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
+} from "../actions/productActions";
+import { PRODUCT_CREATE_RESET } from "../constants/productConstants";
 
 const ProductWaitingListScreen = ({ history, match }) => {
-  const dispatch = useDispatch()
- 
-  const productList = useSelector((state) => state.productListMy)
-  const { loading, error, products } = productList
+  const dispatch = useDispatch();
 
-  const productDelete = useSelector((state) => state.productDelete)
+  const productList = useSelector((state) => state.productListMy);
+  const { loading, error, products } = productList;
+
+  const productDelete = useSelector((state) => state.productDelete);
   const {
     loading: loadingDelete,
     error: errorDelete,
     success: successDelete,
-  } = productDelete
+  } = productDelete;
 
-  const productCreate = useSelector((state) => state.productCreate)
+  const productCreate = useSelector((state) => state.productCreate);
   const {
     loading: loadingCreate,
     error: errorCreate,
     success: successCreate,
     product: createdProduct,
-  } = productCreate
+  } = productCreate;
 
-  const userLogin = useSelector((state) => state.userLogin)
-  const { userInfo } = userLogin
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   useEffect(() => {
-    dispatch({ type: PRODUCT_CREATE_RESET }) 
-    if (!userInfo.isVendor) { 
-      history.push('/login')
+    dispatch({ type: PRODUCT_CREATE_RESET });
+    if (!userInfo.isVendor) {
+      history.push("/login");
     }
     if (successCreate) {
-      history.push(`/admin/product/${createdProduct._id}/edit`)
+      history.push(`/admin/product/${createdProduct._id}/edit`);
     } else {
-      dispatch(listWaitlistProducts())
+      dispatch(listWaitlistProducts());
     }
   }, [
     dispatch,
@@ -52,40 +52,40 @@ const ProductWaitingListScreen = ({ history, match }) => {
     successDelete,
     successCreate,
     createdProduct,
-  ])
+  ]);
 
   const deleteHandler = (id) => {
-    if (window.confirm('Are you sure you want to delist this product?')) {
-      dispatch(deleteProduct(id))
+    if (window.confirm("Are you sure you want to delist this product?")) {
+      dispatch(deleteProduct(id));
     }
-  }
+  };
 
   const createProductHandler = () => {
-    dispatch(createProduct()) 
-  }
+    dispatch(createProduct());
+  };
 
   return (
     <>
-      <Row className='align-items-center'>
+      <Row className="align-items-center">
         <Col>
           <h1>Products</h1>
         </Col>
-        <Col className='text-right'>
-          <Button className='my-3' onClick={createProductHandler}>
-            <i className='fas fa-plus'></i> Create Product
+        <Col className="text-right">
+          <Button className="my-3" onClick={createProductHandler}>
+            <i className="fas fa-plus"></i> Create Product
           </Button>
         </Col>
       </Row>
       {loadingDelete && <Loader />}
-      {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
+      {errorDelete && <Message variant="danger">{errorDelete}</Message>}
       {loadingCreate && <Loader />}
-      {errorCreate && <Message variant='danger'>{errorCreate}</Message>}
+      {errorCreate && <Message variant="danger">{errorCreate}</Message>}
       {loading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{error}</Message>
+        <Message variant="danger">{error}</Message>
       ) : (
-        <Table striped bordered hover responsive className='table-sm'>
+        <Table striped bordered hover responsive className="table-sm">
           <thead>
             <tr>
               <th>NAME</th>
@@ -98,30 +98,32 @@ const ProductWaitingListScreen = ({ history, match }) => {
             {products.map((product) => (
               <tr key={product._id}>
                 <td>{product.name}</td>
-                <td>₹{product.price}</td>
-                <td>{product.bundleQuantity - product.remainingQuantity}/{product.bundleQuantity}
+                <td>LKR{product.price}</td>
+                <td>
+                  {product.bundleQuantity - product.remainingQuantity}/
+                  {product.bundleQuantity}
                 </td>
                 <td>
                   <LinkContainer to={`/admin/product/${product._id}/edit`}>
-                    <Button variant='light' className='btn-sm'>
-                      <i className='fas fa-edit'></i>
+                    <Button variant="light" className="btn-sm">
+                      <i className="fas fa-edit"></i>
                     </Button>
                   </LinkContainer>
                   <Button
-                    variant='danger'
-                    className='btn-sm'
+                    variant="danger"
+                    className="btn-sm"
                     onClick={() => deleteHandler(product._id)}
                   >
                     DELIST
                   </Button>
                 </td>
               </tr>
-            ))} 
+            ))}
           </tbody>
         </Table>
       )}
     </>
-  )
-}
+  );
+};
 
-export default ProductWaitingListScreen
+export default ProductWaitingListScreen;
