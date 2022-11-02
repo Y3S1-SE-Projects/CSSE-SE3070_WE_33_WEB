@@ -1,4 +1,4 @@
-# [Procument Construction Purchasing App]
+# Procument Construction Purchasing App
 
 ![Screenshot](/frontend/public/Screenshot.png)
 
