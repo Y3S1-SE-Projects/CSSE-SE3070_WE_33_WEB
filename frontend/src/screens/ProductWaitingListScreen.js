@@ -55,7 +55,7 @@ const ProductWaitingListScreen = ({ history, match }) => {
   ]);
 
   const deleteHandler = (id) => {
-    if (window.confirm("Are you sure you want to delist this product?")) {
+    if (window.confirm("Are you sure you want to delete this product?")) {
       dispatch(deleteProduct(id));
     }
   };
@@ -114,7 +114,7 @@ const ProductWaitingListScreen = ({ history, match }) => {
                     className="btn-sm"
                     onClick={() => deleteHandler(product._id)}
                   >
-                    DELIST
+                    Delete
                   </Button>
                 </td>
               </tr>

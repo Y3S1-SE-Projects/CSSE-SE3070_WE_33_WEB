@@ -1,6 +1,5 @@
-
-import asyncHandler from 'express-async-handler'
-import Product from '../models/productModel.js'
+import asyncHandler from "express-async-handler";
+import Product from "../models/productModel.js";
 
 // @desc    Fetch all products
 // @route   GET /api/products
@@ -10,56 +9,58 @@ const getProducts = asyncHandler(async (req, res) => {
     ? {
         name: {
           $regex: req.query.keyword,
-          $options: 'i',
+          $options: "i",
         },
       }
-    : {}
+    : {};
 
-  const products = await Product.find({ ...keyword, remainingQuantity: { $gt: 0} })
+  const products = await Product.find({
+    ...keyword,
+    remainingQuantity: { $gt: 0 },
+  });
 
-  res.json(products)
-})
+  res.json(products);
+});
 
 // @desc    Fetch single product
-// @route   GET /api/products/:id 
+// @route   GET /api/products/:id
 // @access  Public
 const getProductById = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id).populate(
-    'user',
-    'name email'
-  )
+    "user",
+    "name email"
+  );
 
   if (product) {
-    res.json(product)
+    res.json(product);
   } else {
-    res.status(404)
-    throw new Error('Product not found')
+    res.status(404);
+    throw new Error("Product not found");
   }
-})
+});
 
-// @desc    Delist a product
+// @desc    Delete a product
 // @route   DELETE /api/products/:id
 // @access  Private/Admin
 const deleteProduct = asyncHandler(async (req, res) => {
-  const product = await Product.findById(req.params.id)
+  const product = await Product.findById(req.params.id);
 
   if (product) {
-    if(JSON.stringify(req.user._id) === JSON.stringify(product.user)){
+    if (JSON.stringify(req.user._id) === JSON.stringify(product.user)) {
       //await product.remove()
-      product.status = 'Cancelled'
-      product.remainingQuantity = 0
-      await product.save()
-      res.json({ message: 'Product removed' })
-    }
-    else{
-      res.status(404)
-      throw new Error(`You are not the owner of this product.`)
+      product.status = "Cancelled";
+      product.remainingQuantity = 0;
+      await product.save();
+      res.json({ message: "Product removed" });
+    } else {
+      res.status(404);
+      throw new Error(`You are not the owner of this product.`);
     }
   } else {
-    res.status(404)
-    throw new Error('Product not found')
+    res.status(404);
+    throw new Error("Product not found");
   }
-})
+});
 
 // @desc    Create a product
 // @route   POST /api/products
@@ -67,69 +68,62 @@ const deleteProduct = asyncHandler(async (req, res) => {
 const createProduct = asyncHandler(async (req, res) => {
   //initialises the values of the product to random values, and we edit this immediately
   const product = new Product({
-    name: 'Sample name',
+    name: "Sample name",
     price: 0,
     user: req.user._id,
-    image: '/images/sample.jpg',
+    image: "/images/sample.jpg",
     bundleQuantity: 0,
     numReviews: 0,
-  })
+  });
 
-  const createdProduct = await product.save()
-  res.status(201).json(createdProduct)
-}) 
+  const createdProduct = await product.save();
+  res.status(201).json(createdProduct);
+});
 
 // @desc    Update a product
 // @route   PUT /api/products/:id
 // @access  Private/Admin
 const updateProduct = asyncHandler(async (req, res) => {
-  const {
-    name,
-    price,
-    image,
-    bundleQuantity,
-    remainingQuantity,
-  } = req.body
+  const { name, price, image, bundleQuantity, remainingQuantity } = req.body;
 
-  const product = await Product.findById(req.params.id) 
+  const product = await Product.findById(req.params.id);
 
   if (product) {
-    if(JSON.stringify(req.user._id) === JSON.stringify(product.user)){
-      product.name = name
-      product.price = price
-      product.image = image
-      product.bundleQuantity = bundleQuantity
-      product.remainingQuantity = remainingQuantity
+    if (JSON.stringify(req.user._id) === JSON.stringify(product.user)) {
+      product.name = name;
+      product.price = price;
+      product.image = image;
+      product.bundleQuantity = bundleQuantity;
+      product.remainingQuantity = remainingQuantity;
 
-      const updatedProduct = await product.save()
-      res.json(updatedProduct)
-    }
-    else{
-      res.status(404)
-      throw new Error(`You are not the owner of this product.`)
+      const updatedProduct = await product.save();
+      res.json(updatedProduct);
+    } else {
+      res.status(404);
+      throw new Error(`You are not the owner of this product.`);
     }
   } else {
-    res.status(404)
-    throw new Error('Product not found')
+    res.status(404);
+    throw new Error("Product not found");
   }
-})
+});
 
 // @desc    Create new review
 // @route   POST /api/products/:id/reviews
 // @access  Private
 const createProductReview = asyncHandler(async (req, res) => {
-  const { rating, comment } = req.body
+  const { rating, comment } = req.body;
 
-  const product = await Product.findById(req.params.id)
+  const product = await Product.findById(req.params.id);
 
   if (product) {
     const alreadyReviewed = product.reviews.find(
       (r) => r.user.toString() === req.user._id.toString()
-    )
+    );
 
     if (alreadyReviewed) {
-      res.status(400)
-      throw new Error('Product already reviewed')
+      res.status(400);
+      throw new Error("Product already reviewed");
     }
 
     const review = {
@@ -137,76 +131,76 @@ const createProductReview = asyncHandler(async (req, res) => {
       rating: Number(rating),
       comment,
       user: req.user._id,
-    }
+    };
 
-    product.reviews.push(review)
+    product.reviews.push(review);
 
-    product.numReviews = product.reviews.length
+    product.numReviews = product.reviews.length;
 
     product.rating =
       product.reviews.reduce((acc, item) => item.rating + acc, 0) /
-      product.reviews.length
+      product.reviews.length;
 
-    await product.save()
-    res.status(201).json({ message: 'Review added' })
+    await product.save();
+    res.status(201).json({ message: "Review added" });
   } else {
-    res.status(404)
-    throw new Error('Product not found')
+    res.status(404);
+    throw new Error("Product not found");
   }
-})
+});
 
 // @desc    Get logged in vendor's waitlist products
 // @route   GET /api/products/mywaitingproducts
 // @access  Private/Admin
 const getMyWaitlistProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({ 
-    user: req.user._id, 
-    remainingQuantity: { $gt: 0, },
-    status: { $ne: 'Cancelled',},
-  })
-  res.json(products)
-}) 
+  const products = await Product.find({
+    user: req.user._id,
+    remainingQuantity: { $gt: 0 },
+    status: { $ne: "Cancelled" },
+  });
+  res.json(products);
+});
 
 // @desc    Get logged in vendor's dispatch ready products
 // @route   GET /api/products/dispatchready
 // @access  Private/Admin
 const getDispatchReadyProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({ 
-    user: req.user._id, 
+  const products = await Product.find({
+    user: req.user._id,
     remainingQuantity: 0,
-    status: 'Placed',
-  })
-  res.json(products)
-})
+    status: "Placed",
+  });
+  res.json(products);
+});
 
 // @desc    Get logged in vendor's dispatched products
 // @route   GET /api/products/dispatched
 // @access  Private/Admin
 const getDispatchedProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({ 
+  const products = await Product.find({
     user: req.user._id,
-    status: 'Dispatched',
-  })
-  res.json(products)
-})
+    status: "Dispatched",
+  });
+  res.json(products);
+});
 
 // @desc    Update product status to dispatched
 // @route   PUT /api/products/dispatchProduct/:id
 // @access  Private/Admin
 const dispatchProduct = asyncHandler(async (req, res) => {
-  const product = await Product.findById(req.params.id)
-  
-  console.log("sss")
+  const product = await Product.findById(req.params.id);
+
+  console.log("sss");
   if (product) {
-    product.status = 'Dispatched';
+    product.status = "Dispatched";
     const updatedProduct = await product.save();
 
-    res.json(updatedProduct)
+    res.json(updatedProduct);
   } else {
-    res.status(404)
-    throw new Error('Product not found')
+    res.status(404);
+    throw new Error("Product not found");
   }
-})
+});
 
 export {
   getProducts,
@@ -219,4 +213,4 @@ export {
   getDispatchReadyProducts,
   dispatchProduct,
   getDispatchedProducts,
-}
+};

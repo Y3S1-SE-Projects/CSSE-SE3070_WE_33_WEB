@@ -6,6 +6,7 @@ eCommerce platform built with the MERN stack & Redux.\
 ![Screenshot](/frontend/public/Screenshot.png)
 
 Table of Contents:
+
 - [Bulkart - Bulk Purchasing App](#bulkart---bulk-purchasing-app)
   - [Usage](#usage)
     - [ES Modules in Node](#es-modules-in-node)
@@ -158,6 +159,7 @@ All dispatched orders are visible in another view.
 #### 3.3. View Order Status
 
 All orders are visible on user's profile to the user. All the products under a particular order have a dispatch status alongside them:
+
 - Waiting, Placed, Dispatched, Cancelled
   - Waiting (If not enough orders have been placed meeting the minimum bulk quantity requirement by the seller)
     - Quantity left for the order to get placed is also shown
@@ -190,87 +192,87 @@ All orders are visible on user's profile to the user. All the products under a p
 
 #### User
 
-| NAME     | TYPE    | REQUIRED | OTHERS                       |
-| -------- | ------  | -------- | ---------------------------- |
-| name     | String  | true     | -                            |
-| password | String  | true     | -                            |
-| email    | String  | true     | unique: true                 |
-| isVendor | Boolean | true     | default: false               |
+| NAME     | TYPE    | REQUIRED | OTHERS         |
+| -------- | ------- | -------- | -------------- |
+| name     | String  | true     | -              |
+| password | String  | true     | -              |
+| email    | String  | true     | unique: true   |
+| isVendor | Boolean | true     | default: false |
 
 #### Product
 
-| NAME               | TYPE        | REQUIRED | OTHERS                                 |
-| ------------------ | ------      | -------- | -------------------------------------- |
-| user(the vendor)   | ObjectId    | true     | ref: User                              |
-| name               | String      | true     |                                        |
-| status             | String      | true     | default: 'Waiting'                     |
-| image              | String      | true     |                                        |
-| reviews            | Subdocument |          |                                        |
-| rating             | Number      | true     | default: 0                             |
-| numReviews         | Number      | true     | default: 0                             |
-| price              | Number      | true     | default: 0                             |
-| bundleQuantity     | Number      | true     | default: 0                             |
-| remainingQuantity  | Number      | true     | -                                      |
+| NAME              | TYPE        | REQUIRED | OTHERS             |
+| ----------------- | ----------- | -------- | ------------------ |
+| user(the vendor)  | ObjectId    | true     | ref: User          |
+| name              | String      | true     |                    |
+| status            | String      | true     | default: 'Waiting' |
+| image             | String      | true     |                    |
+| reviews           | Subdocument |          |                    |
+| rating            | Number      | true     | default: 0         |
+| numReviews        | Number      | true     | default: 0         |
+| price             | Number      | true     | default: 0         |
+| bundleQuantity    | Number      | true     | default: 0         |
+| remainingQuantity | Number      | true     | -                  |
 
 #### Reviews
 
-| NAME               | TYPE        | REQUIRED | OTHERS                                 |
-| ------------------ | ------      | -------- | -------------------------------------- |
-| name               | String      | true     |                                        |
-| rating             | String      | true     |                                        |
-| comment            | String      | true     |                                        |
-| user               | ObjectId    | true     | ref: User                              |
+| NAME    | TYPE     | REQUIRED | OTHERS    |
+| ------- | -------- | -------- | --------- |
+| name    | String   | true     |           |
+| rating  | String   | true     |           |
+| comment | String   | true     |           |
+| user    | ObjectId | true     | ref: User |
 
 #### Order
 
-| NAME              | TYPE         | REQUIRED | OTHERS          |
-| --------          | ------       | -------- | ------          |
-| user              | ObjectId     |   true   | ref: User       |
-| orderItems        | Subdocument  |          |    -            |
-| shippingAddress   | Subdocument  |          |    -            |
-| paymentResult     | String       |     -    |    -            |
-| totalPrice        | Number       |   true   | default: 0.0    |
-| taxPrice          | Number       |   true   | default: 0.0    |
-| shippingPrice     | Number       |   true   | default: 0.0    |
-| isPaid            | Boolean      |   true   | default: false  |
-| shippingPrice     | Date         |     -    |     -           |
+| NAME            | TYPE        | REQUIRED | OTHERS         |
+| --------------- | ----------- | -------- | -------------- |
+| user            | ObjectId    | true     | ref: User      |
+| orderItems      | Subdocument |          | -              |
+| shippingAddress | Subdocument |          | -              |
+| paymentResult   | String      | -        | -              |
+| totalPrice      | Number      | true     | default: 0.0   |
+| taxPrice        | Number      | true     | default: 0.0   |
+| shippingPrice   | Number      | true     | default: 0.0   |
+| isPaid          | Boolean     | true     | default: false |
+| shippingPrice   | Date        | -        | -              |
 
 #### Order Items
 
-| NAME              | TYPE         | REQUIRED | OTHERS          |
-| --------          | ------       | -------- | ------          |
-| name              | String       |   true   |    -            |
-| image             | String       |   true   |    -            |
-| price             | Number       |   true   |    -            |
-| product           | ObjectId     |   true   |  Ref: Product   |
+| NAME    | TYPE     | REQUIRED | OTHERS       |
+| ------- | -------- | -------- | ------------ |
+| name    | String   | true     | -            |
+| image   | String   | true     | -            |
+| price   | Number   | true     | -            |
+| product | ObjectId | true     | Ref: Product |
 
 #### Shipping Address
 
-| NAME             | TYPE         | REQUIRED | OTHERS          |
-| --------         | ------       | -------- | ------          |
-| address          | String       |   true   |    -            |
-| city             | String       |   true   |    -            |
-| postalCode       | String       |   true   |    -            |
-| country          | String       |   true   |    -            |
+| NAME       | TYPE   | REQUIRED | OTHERS |
+| ---------- | ------ | -------- | ------ |
+| address    | String | true     | -      |
+| city       | String | true     | -      |
+| postalCode | String | true     | -      |
+| country    | String | true     | -      |
 
 ### API Routes
 
 #### Users
 
-| API_ROUTE          | TYPE | DESCRIPTION                        |
-| ------------------ | ---- | ---------------------------------- |
-| /api/users/login   | POST | Auth user & get token              |
-| /api/users         | POST | Register a new user                |
-| /api/users/profile | GET  | Get user profile                   |
-| /api/users/profile | PUT  | Update user profile                |
+| API_ROUTE          | TYPE | DESCRIPTION           |
+| ------------------ | ---- | --------------------- |
+| /api/users/login   | POST | Auth user & get token |
+| /api/users         | POST | Register a new user   |
+| /api/users/profile | GET  | Get user profile      |
+| /api/users/profile | PUT  | Update user profile   |
 
 #### Products
 
 | API_ROUTE                         | TYPE   | DESCRIPTION                                    |
-| ----------------------------      | ------ | -----------------------------------------------|
+| --------------------------------- | ------ | ---------------------------------------------- |
 | /api/products                     | GET    | Fetch all products                             |
 | /api/products/:id                 | GET    | Fetch single product                           |
-| /api/products/:id                 | DELETE | Delist a product                               |
+| /api/products/:id                 | DELETE | Delete a product                               |
 | /api/products                     | POST   | Create a product                               |
 | /api/products/:id                 | PUT    | Update a product                               |
 | /api/products/:id/reviews         | POST   | Create new review                              |
@@ -281,9 +283,9 @@ All orders are visible on user's profile to the user. All the products under a p
 
 #### Orders
 
-| API_ROUTE                  | TYPE   | DESCRIPTION                     |
-| -------------------------- | ------ | ------------------------------- |
-| /api/orders                | POST   | Create new order                |
-| /api/orders/:id            | GET    | Get order by ID                 |
-| /api/orders/:id/pay        | PUT    | Update order to paid            |
-| /api/orders/myorders       | GET    | Get logged in user orders       |
+| API_ROUTE            | TYPE | DESCRIPTION               |
+| -------------------- | ---- | ------------------------- |
+| /api/orders          | POST | Create new order          |
+| /api/orders/:id      | GET  | Get order by ID           |
+| /api/orders/:id/pay  | PUT  | Update order to paid      |
+| /api/orders/myorders | GET  | Get logged in user orders |
