@@ -3,7 +3,7 @@
 ![Screenshot](/frontend/public/Screenshot.png)
 
 Table of Contents:
-- [Bulkart - Bulk Purchasing App](#bulkart---bulk-purchasing-app)
+- [Procument Construction Purchasing App](#bulkart---bulk-purchasing-app)
   - [Usage](#usage)
     - [ES Modules in Node](#es-modules-in-node)
     - [Env Variables](#env-variables)
@@ -158,4 +158,12 @@ All orders are visible on user's profile to the user. All the products under a p
 
 ## Backend
 
-### Model Description
+- MongoDB database
+- API routes
+- Models
+- Middleware
+- Data
+- Controllers
+- Config
+- Uitls
+
