@@ -1,7 +1,4 @@
-# [Bulkart - Bulk Purchasing App](https://bulkart.herokuapp.com)
-
-eCommerce platform built with the MERN stack & Redux.\
-[Check it out!](https://bulkart.herokuapp.com)
+# [Procument Construction Purchasing App]
 
 ![Screenshot](/frontend/public/Screenshot.png)
 
@@ -76,31 +73,6 @@ npm run dev
 
 # Run backend only
 npm run server
-```
-
-### Seed Database
-
-You can use the following commands to seed the database with some sample users and products (`/backend/data`) as well as destroy all data
-
-```
-# Import data
-npm run data:import
-
-# Destroy data
-npm run data:destroy
-```
-
-```
-Sample User Logins
-
-admin@example.com (Vendor)
-123456
-
-john@example.com (Customer)
-123456
-
-jane@example.com (Customer)
-123456
 ```
 
 ## Use Cases
@@ -187,103 +159,3 @@ All orders are visible on user's profile to the user. All the products under a p
 ## Backend
 
 ### Model Description
-
-#### User
-
-| NAME     | TYPE    | REQUIRED | OTHERS                       |
-| -------- | ------  | -------- | ---------------------------- |
-| name     | String  | true     | -                            |
-| password | String  | true     | -                            |
-| email    | String  | true     | unique: true                 |
-| isVendor | Boolean | true     | default: false               |
-
-#### Product
-
-| NAME               | TYPE        | REQUIRED | OTHERS                                 |
-| ------------------ | ------      | -------- | -------------------------------------- |
-| user(the vendor)   | ObjectId    | true     | ref: User                              |
-| name               | String      | true     |                                        |
-| status             | String      | true     | default: 'Waiting'                     |
-| image              | String      | true     |                                        |
-| reviews            | Subdocument |          |                                        |
-| rating             | Number      | true     | default: 0                             |
-| numReviews         | Number      | true     | default: 0                             |
-| price              | Number      | true     | default: 0                             |
-| bundleQuantity     | Number      | true     | default: 0                             |
-| remainingQuantity  | Number      | true     | -                                      |
-
-#### Reviews
-
-| NAME               | TYPE        | REQUIRED | OTHERS                                 |
-| ------------------ | ------      | -------- | -------------------------------------- |
-| name               | String      | true     |                                        |
-| rating             | String      | true     |                                        |
-| comment            | String      | true     |                                        |
-| user               | ObjectId    | true     | ref: User                              |
-
-#### Order
-
-| NAME              | TYPE         | REQUIRED | OTHERS          |
-| --------          | ------       | -------- | ------          |
-| user              | ObjectId     |   true   | ref: User       |
-| orderItems        | Subdocument  |          |    -            |
-| shippingAddress   | Subdocument  |          |    -            |
-| paymentResult     | String       |     -    |    -            |
-| totalPrice        | Number       |   true   | default: 0.0    |
-| taxPrice          | Number       |   true   | default: 0.0    |
-| shippingPrice     | Number       |   true   | default: 0.0    |
-| isPaid            | Boolean      |   true   | default: false  |
-| shippingPrice     | Date         |     -    |     -           |
-
-#### Order Items
-
-| NAME              | TYPE         | REQUIRED | OTHERS          |
-| --------          | ------       | -------- | ------          |
-| name              | String       |   true   |    -            |
-| image             | String       |   true   |    -            |
-| price             | Number       |   true   |    -            |
-| product           | ObjectId     |   true   |  Ref: Product   |
-
-#### Shipping Address
-
-| NAME             | TYPE         | REQUIRED | OTHERS          |
-| --------         | ------       | -------- | ------          |
-| address          | String       |   true   |    -            |
-| city             | String       |   true   |    -            |
-| postalCode       | String       |   true   |    -            |
-| country          | String       |   true   |    -            |
-
-### API Routes
-
-#### Users
-
-| API_ROUTE          | TYPE | DESCRIPTION                        |
-| ------------------ | ---- | ---------------------------------- |
-| /api/users/login   | POST | Auth user & get token              |
-| /api/users         | POST | Register a new user                |
-| /api/users/profile | GET  | Get user profile                   |
-| /api/users/profile | PUT  | Update user profile                |
-
-#### Products
-
-| API_ROUTE                         | TYPE   | DESCRIPTION                                    |
-| ----------------------------      | ------ | -----------------------------------------------|
-| /api/products                     | GET    | Fetch all products                             |
-| /api/products/:id                 | GET    | Fetch single product                           |
-| /api/products/:id                 | DELETE | Delist a product                               |
-| /api/products                     | POST   | Create a product                               |
-| /api/products/:id                 | PUT    | Update a product                               |
-| /api/products/:id/reviews         | POST   | Create new review                              |
-| /api/products/mywaitingproducts   | GET    | Get logged in vendor's waitlist products       |
-| /api/products/dispatchready       | GET    | Get logged in vendor's dispatch ready products |
-| /api/products/dispatched          | GET    | Get logged in vendor's dispatched products     |
-| /api/products/dispatchProduct/:id | PUT    | Update product status to dispatched            |
-
-#### Orders
-
-| API_ROUTE                  | TYPE   | DESCRIPTION                     |
-| -------------------------- | ------ | ------------------------------- |
-| /api/orders                | POST   | Create new order                |
-| /api/orders/:id            | GET    | Get order by ID                 |
-| /api/orders/:id/pay        | PUT    | Update order to paid            |
-| /api/orders/myorders       | GET    | Get logged in user orders       |
