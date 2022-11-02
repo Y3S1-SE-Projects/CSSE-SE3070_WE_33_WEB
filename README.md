@@ -1,13 +1,14 @@
-# [Bulkart - Bulk Purchasing App](https://bulkart.herokuapp.com)
-
-eCommerce platform built with the MERN stack & Redux.\
-[Check it out!](https://bulkart.herokuapp.com)
+# Procument Construction Purchasing App
 
 ![Screenshot](/frontend/public/Screenshot.png)
 
 Table of Contents:
+<<<<<<< HEAD
 
 - [Bulkart - Bulk Purchasing App](#bulkart---bulk-purchasing-app)
+=======
+- [Procument Construction Purchasing App](#Procument Construction Purchasing App)
+>>>>>>> db55d4fe34da3d1aaade8bfadbb924f329815162
   - [Usage](#usage)
     - [ES Modules in Node](#es-modules-in-node)
     - [Env Variables](#env-variables)
@@ -77,31 +78,6 @@ npm run dev
 
 # Run backend only
 npm run server
-```
-
-### Seed Database
-
-You can use the following commands to seed the database with some sample users and products (`/backend/data`) as well as destroy all data
-
-```
-# Import data
-npm run data:import
-
-# Destroy data
-npm run data:destroy
-```
-
-```
-Sample User Logins
-
-admin@example.com (Vendor)
-123456
-
-john@example.com (Customer)
-123456
-
-jane@example.com (Customer)
-123456
 ```
 
 ## Use Cases
@@ -188,8 +164,16 @@ All orders are visible on user's profile to the user. All the products under a p
 
 ## Backend
 
-### Model Description
+- MongoDB database
+- API routes
+- Models
+- Middleware
+- Data
+- Controllers
+- Config
+- Uitls
 
+<<<<<<< HEAD
 #### User
 
 | NAME     | TYPE    | REQUIRED | OTHERS         |
@@ -289,3 +273,5 @@ All orders are visible on user's profile to the user. All the products under a p
 | /api/orders/:id      | GET  | Get order by ID           |
 | /api/orders/:id/pay  | PUT  | Update order to paid      |
 | /api/orders/myorders | GET  | Get logged in user orders |
+=======
+>>>>>>> db55d4fe34da3d1aaade8bfadbb924f329815162
