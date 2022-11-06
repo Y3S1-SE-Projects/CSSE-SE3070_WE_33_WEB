@@ -1,6 +1,6 @@
 # Procument Construction Purchasing App
 
-![Screenshot](/frontend/public/Screenshot.png)
+![Screenshot](/frontend/public/web-home.png)
 
 Table of Contents:
 
