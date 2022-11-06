@@ -1,10 +1,10 @@
-# Procument Construction Purchasing App
+ Procument Construction Purchasing App
 
 ![Screenshot](/frontend/public/web-home.png)
 
 Table of Contents:
 
-- [Procument Construction Purchasing App](#Procument Construction Purchasing App)
+## Procument Construction Purchasing App
   - [Usage](#usage)
     - [ES Modules in Node](#es-modules-in-node)
     - [Env Variables](#env-variables)
